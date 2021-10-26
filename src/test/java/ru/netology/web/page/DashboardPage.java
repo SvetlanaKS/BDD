@@ -13,15 +13,16 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
-
-    private SelenideElement transferButton = $("[data-test-id=action-transfer]");
-    private SelenideElement amountInput = $("[data-test-id=amount] input");
-    private SelenideElement cardFromInput = $("[data-test-id=from] input");
     private ElementsCollection cards = $$("[class=list__item]");
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
     public int getFirstCardBalance() {
+        val text = cards.first().text();
+        return extractBalance(text);
+    }
+
+    public int getSecondCardBalance() {
         val text = cards.first().text();
         return extractBalance(text);
     }
@@ -36,15 +37,6 @@ public class DashboardPage {
 
     public DashboardPage() {
         heading.shouldBe(visible);
-    }
-
-    public DashboardPage transferFromCardToCard(CardInfo fromCard, CardInfo toCard, int amount) {
-        cards.findBy(text(toCard.getViewedNum())).find("[data-test-id=action-deposit]").click();
-        amountInput.shouldBe(visible);
-        amountInput.sendKeys(Integer.toString(amount));
-        cardFromInput.sendKeys(fromCard.getNumber());
-        transferButton.click();
-        return new DashboardPage();
     }
 
     public void checkBalance(CardInfo card) {
