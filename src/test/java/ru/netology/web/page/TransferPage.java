@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class TransferPage {
-
+    //перевод с одной карты на другую
     public static void transferFromCardToCard(DataHelper.Card fromCard, DataHelper.Card toCard, int amount) {
         ElementsCollection cards = $$("[class=list__item]");
         SelenideElement amountInput = $("[data-test-id=amount] input");
