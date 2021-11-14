@@ -32,17 +32,13 @@ public class DataHelper {
     public static class Card{
         private String number;
         private String viewedNum;
-        private int balance;
 
-        public Card(String cardNumber){
-
-        }
         public static Card getFirstCard() {
-            return new Card("5559 0000 0000 0001");
+            return new Card("5559 0000 0000 0001", "0001");
         }
 
         public static Card getSecondCard() {
-            return new Card("5559 0000 0000 0002");
+            return new Card("5559 0000 0000 0002", "0002");
         }
     }
 }

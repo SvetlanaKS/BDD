@@ -3,7 +3,9 @@ package ru.netology.web.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
+import ru.netology.web.data.DataHelper;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -11,18 +13,17 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
-    private ElementsCollection card1 = $$("#root > div > ul > li:nth-child(1) > div");
-    private ElementsCollection card2 = $$("#root > div > ul > li:nth-child(2) > div");
+    private ElementsCollection cards = $$("[class=list__item]");
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
     public int getFirstCardBalance() {
-        val text = card1.first().text();
+        val text = cards.first().text();
         return extractBalance(text);
     }
 
     public int getSecondCardBalance() {
-        val text = card2.first().text();
+        val text = cards.last().text();
         return extractBalance(text);
     }
 
@@ -37,4 +38,10 @@ public class DashboardPage {
     public DashboardPage() {
         heading.shouldBe(visible);
     }
+
+    public TransferPage chooseCard(DataHelper.Card toCard) {
+        cards.findBy(text(toCard.getViewedNum())).find("[data-test-id=action-deposit]").click();
+        return new TransferPage();
+    }
+
 }
